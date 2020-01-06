@@ -9,6 +9,8 @@ public interface IPresenter<T extends BaseView> {
 
     void setView(T view);
 
+    void onCreate();
+
     /**
      * 做一些初始化操作
      */

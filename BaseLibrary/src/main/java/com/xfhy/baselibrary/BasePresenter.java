@@ -58,6 +58,12 @@ public abstract class BasePresenter<T extends BaseView> implements IPresenter<T>
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    @Override
+    public void onCreate() {
+
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     @Override
     public void onStart() {
