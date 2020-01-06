@@ -2,7 +2,7 @@ package com.xfhy.mvpdemo.presenter.impl;
 
 import android.util.Log;
 
-import com.xfhy.baselibrary.AbstractPresenter;
+import com.xfhy.baselibrary.BasePresenter;
 import com.xfhy.mvpdemo.data.DataManager;
 import com.xfhy.mvpdemo.data.bean.Today;
 import com.xfhy.mvpdemo.presenter.MainContract;
@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
  * Create time : 2020/1/5 15:20
  * Description :
  */
-public class MainPresenter extends AbstractPresenter<MainContract.View> implements MainContract.Presenter {
+public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
 
     private static final String TAG = "MainPresenter";
 

@@ -1,7 +1,7 @@
 package com.xfhy.mvpdemo.presenter;
 
 import com.xfhy.baselibrary.BaseView;
-import com.xfhy.baselibrary.BasePresenter;
+import com.xfhy.baselibrary.IPresenter;
 
 /**
  * @author : xfhy
@@ -14,7 +14,7 @@ public interface MainContract {
         void showContent(String content);
     }
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends IPresenter<View> {
         /**
          * 加载数据
          */

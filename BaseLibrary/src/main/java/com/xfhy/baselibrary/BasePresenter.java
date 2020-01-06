@@ -1,26 +1,109 @@
 package com.xfhy.baselibrary;
 
+import android.util.Log;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * @author : xfhy
- * Create time : 2020/1/5 15:03
+ * Create time : 2020/1/5 15:04
  * Description :
  */
-public interface BasePresenter<T extends BaseView> {
+public abstract class BasePresenter<T extends BaseView> implements IPresenter<T>, InvocationHandler, LifecycleObserver {
 
-    void setView(T view);
+    private static final String TAG = "AbstractPresenter";
+    private T mView;
+    protected T mViewProxy;
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
-    void onCreate();
+    @Override
+    public void setView(T view) {
+        this.mView = view;
 
-    void onStart();
+        //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
+        //注册观察者
+        if (mView != null && mView instanceof LifecycleOwner) {
+            ((LifecycleOwner) mView).getLifecycle().addObserver(this);
+        }
 
-    void onResume();
+        //找到View的接口 是继承BaseView的
+        Class<?>[] interfaces = view.getClass().getInterfaces();
+        boolean findIt = false;
+        for (Class<?> anInterface : interfaces) {
+            Class<?>[] anInterfaceInterfaces = anInterface.getInterfaces();
+            for (Class<?> anInterfaceInterface : anInterfaceInterfaces) {
+                if (BaseView.class == anInterfaceInterface) {
+                    mViewProxy = (T) Proxy.newProxyInstance(anInterface.getClassLoader(), new Class[]{anInterface}, this);
+                    findIt = true;
+                    break;
+                }
+            }
+            if (findIt) {
+                break;
+            }
+        }
+        if (mViewProxy == null) {
+            mViewProxy = (T) Proxy.newProxyInstance(BaseView.class.getClassLoader(), new Class[]{BaseView.class}, this);
+        }
+    }
 
-    void onPause();
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @Override
+    public void onStart() {
+        Log.w(TAG, "BasePresenter onStart: ");
+    }
 
-    void onStop();
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    @Override
+    public void onDestroy() {
+        Log.w(TAG, "BasePresenter onDestroy: ");
+        mView = null;
+        mCompositeDisposable.clear();
+    }
 
-    void onRestart();
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    void onDestroy(LifecycleOwner owner) {
+        Log.w(TAG, "BasePresenter removeObserver: ");
+        owner.getLifecycle().removeObserver(this);
+    }
 
-    void onDestroy();
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (mView == null || method == null) {
+            Log.w(TAG, "view 为null 不执行方法");
+            return null;
+        }
+        if (mView.isViewDestroy()) {
+            Log.w(TAG, "已经destroy了,不执行view方法");
+            return null;
+        }
+        try {
+            Log.w(TAG, "执行方法");
+            return method.invoke(mView, args);
+        } catch (IllegalAccessException | IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.getTargetException().printStackTrace();
+        }
+        return null;
+    }
+
+    protected void addDisposable(Disposable disposable) {
+        if (disposable == null) {
+            return;
+        }
+        mCompositeDisposable.add(disposable);
+    }
 
 }
