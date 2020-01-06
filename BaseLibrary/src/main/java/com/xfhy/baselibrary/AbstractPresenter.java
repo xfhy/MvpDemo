@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * @author : xfhy
  * Create time : 2020/1/5 15:04
@@ -16,6 +19,7 @@ public abstract class AbstractPresenter<T extends BaseView> implements BasePrese
     private static final String TAG = "AbstractPresenter";
     private T mView;
     protected T mViewProxy;
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     public void setView(T view) {
@@ -75,6 +79,7 @@ public abstract class AbstractPresenter<T extends BaseView> implements BasePrese
     @Override
     public void onDestroy() {
         mView = null;
+        mCompositeDisposable.clear();
     }
 
     @Override
@@ -86,4 +91,12 @@ public abstract class AbstractPresenter<T extends BaseView> implements BasePrese
         Log.w(TAG, "执行方法");
         return method.invoke(mView, args);
     }
+
+    protected void addDisposable(Disposable disposable) {
+        if (disposable == null) {
+            return;
+        }
+        mCompositeDisposable.add(disposable);
+    }
+
 }

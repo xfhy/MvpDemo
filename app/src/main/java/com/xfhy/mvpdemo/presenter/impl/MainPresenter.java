@@ -8,6 +8,8 @@ import com.xfhy.mvpdemo.data.bean.Today;
 import com.xfhy.mvpdemo.presenter.MainContract;
 
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -39,6 +41,24 @@ public class MainPresenter extends AbstractPresenter<MainContract.View> implemen
                             mViewProxy.hideLoading();
                             mViewProxy.showErrorMsg(throwable.getMessage());
                         });
+        addDisposable(subscribe);
 
+        Disposable subscribe1 = Flowable.interval(1, TimeUnit.SECONDS).take(100).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(time -> {
+                    mViewProxy.hideLoading();
+                    Log.w(TAG, "loadData: 延时");
+                }, throwable -> {
+                    mViewProxy.hideLoading();
+                    mViewProxy.showErrorMsg(throwable.getMessage());
+                });
+        addDisposable(subscribe1);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.w(TAG, "onDestroy: ");
     }
 }
