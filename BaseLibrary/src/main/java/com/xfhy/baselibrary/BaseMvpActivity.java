@@ -1,5 +1,6 @@
 package com.xfhy.baselibrary;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,10 +14,15 @@ import androidx.fragment.app.FragmentActivity;
 public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentActivity implements BaseView {
 
     protected T mPresenter;
+    private boolean mFlagDestroyed = false;
+    protected Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = this;
+        mFlagDestroyed = false;
 
         mPresenter = getPresenter();
         mPresenter.setView(this);
@@ -57,6 +63,8 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentA
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+        mFlagDestroyed = true;
+        mContext = null;
     }
 
     @Override
@@ -72,6 +80,11 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentA
     @Override
     public void showErrorMsg(String msg) {
 
+    }
+
+    @Override
+    public boolean isViewDestroy() {
+        return mFlagDestroyed;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.xfhy.baselibrary;
 import android.util.Log;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -88,8 +89,19 @@ public abstract class AbstractPresenter<T extends BaseView> implements BasePrese
             Log.w(TAG, "view 为null 不执行方法");
             return null;
         }
-        Log.w(TAG, "执行方法");
-        return method.invoke(mView, args);
+        if (mView.isViewDestroy()) {
+            Log.w(TAG, "已经destroy了,不执行view方法");
+            return null;
+        }
+        try {
+            Log.w(TAG, "执行方法");
+            return method.invoke(mView, args);
+        } catch (IllegalAccessException | IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.getTargetException().printStackTrace();
+        }
+        return null;
     }
 
     protected void addDisposable(Disposable disposable) {

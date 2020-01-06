@@ -13,4 +13,6 @@ public interface BaseView {
 
     void showErrorMsg(String msg);
 
+    boolean isViewDestroy();
+
 }
