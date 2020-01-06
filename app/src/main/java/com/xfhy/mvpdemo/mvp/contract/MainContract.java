@@ -1,6 +1,6 @@
 package com.xfhy.mvpdemo.mvp.contract;
 
-import com.xfhy.baselibrary.BaseView;
+import com.xfhy.baselibrary.IBaseView;
 import com.xfhy.baselibrary.IPresenter;
 
 /**
@@ -10,7 +10,7 @@ import com.xfhy.baselibrary.IPresenter;
  */
 public interface MainContract {
 
-    interface View extends BaseView {
+    interface View extends IBaseView {
         void showContent(String content);
     }
 

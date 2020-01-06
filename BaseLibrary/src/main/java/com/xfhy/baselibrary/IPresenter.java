@@ -5,7 +5,7 @@ package com.xfhy.baselibrary;
  * Create time : 2020/1/5 15:03
  * Description :
  */
-public interface IPresenter<T extends BaseView> {
+public interface IPresenter<T extends IBaseView> {
 
     void setView(T view);
 

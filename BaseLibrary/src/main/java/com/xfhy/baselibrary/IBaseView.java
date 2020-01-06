@@ -5,7 +5,7 @@ package com.xfhy.baselibrary;
  * Create time : 2020/1/5 15:02
  * Description :
  */
-public interface BaseView {
+public interface IBaseView {
 
     void showLoading();
 

@@ -20,7 +20,7 @@ import io.reactivex.disposables.Disposable;
  * Create time : 2020/1/5 15:04
  * Description :
  */
-public abstract class BasePresenter<T extends BaseView> implements IPresenter<T>, InvocationHandler, LifecycleObserver {
+public abstract class BasePresenter<T extends IBaseView> implements IPresenter<T>, InvocationHandler, LifecycleObserver {
 
     private static final String TAG = "AbstractPresenter";
     private T mView;
@@ -43,7 +43,7 @@ public abstract class BasePresenter<T extends BaseView> implements IPresenter<T>
         for (Class<?> anInterface : interfaces) {
             Class<?>[] anInterfaceInterfaces = anInterface.getInterfaces();
             for (Class<?> anInterfaceInterface : anInterfaceInterfaces) {
-                if (BaseView.class == anInterfaceInterface) {
+                if (IBaseView.class == anInterfaceInterface) {
                     mViewProxy = (T) Proxy.newProxyInstance(anInterface.getClassLoader(), new Class[]{anInterface}, this);
                     findIt = true;
                     break;
@@ -54,7 +54,7 @@ public abstract class BasePresenter<T extends BaseView> implements IPresenter<T>
             }
         }
         if (mViewProxy == null) {
-            mViewProxy = (T) Proxy.newProxyInstance(BaseView.class.getClassLoader(), new Class[]{BaseView.class}, this);
+            mViewProxy = (T) Proxy.newProxyInstance(IBaseView.class.getClassLoader(), new Class[]{IBaseView.class}, this);
         }
     }
 

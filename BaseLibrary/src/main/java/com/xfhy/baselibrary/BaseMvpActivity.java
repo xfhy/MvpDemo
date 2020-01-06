@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity;
  * Create time : 2020/1/5 15:05
  * Description : 基类Activity
  */
-public abstract class BaseMvpActivity<T extends IPresenter> extends FragmentActivity implements BaseView {
+public abstract class BaseMvpActivity<T extends IPresenter> extends FragmentActivity implements IBaseView {
 
     protected T mPresenter;
     private boolean mFlagDestroyed = false;
