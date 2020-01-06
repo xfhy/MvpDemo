@@ -1,15 +1,14 @@
 package com.xfhy.mvpdemo;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.xfhy.baselibrary.BaseMvpActivity;
-import com.xfhy.mvpdemo.presenter.MainContract;
-import com.xfhy.mvpdemo.presenter.impl.MainPresenter;
+import com.xfhy.mvpdemo.mvp.contract.MainContract;
+import com.xfhy.mvpdemo.mvp.presenter.TodayPresenter;
 
 public class MainActivity extends BaseMvpActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener {
 
@@ -26,7 +25,7 @@ public class MainActivity extends BaseMvpActivity<MainContract.Presenter> implem
 
     @Override
     public MainContract.Presenter getPresenter() {
-        return new MainPresenter();
+        return new TodayPresenter();
     }
 
     private void initView() {

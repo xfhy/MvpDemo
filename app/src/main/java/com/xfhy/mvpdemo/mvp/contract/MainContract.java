@@ -1,4 +1,4 @@
-package com.xfhy.mvpdemo.presenter;
+package com.xfhy.mvpdemo.mvp.contract;
 
 import com.xfhy.baselibrary.BaseView;
 import com.xfhy.baselibrary.IPresenter;

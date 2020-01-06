@@ -1,7 +1,7 @@
 package com.xfhy.mvpdemo.data.impl;
 
-import com.xfhy.mvpdemo.data.bean.Today;
-import com.xfhy.mvpdemo.data.interfaces.IGetDataListRepository;
+import com.xfhy.mvpdemo.mvp.model.bean.Today;
+import com.xfhy.mvpdemo.data.interfaces.ITodayRepository;
 import com.xfhy.mvpdemo.data.net.GetRequest;
 
 import io.reactivex.Flowable;
@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Create time : 2020/1/5 16:28
  * Description :
  */
-public class GetDataListRepository implements IGetDataListRepository {
+public class TodayRepository implements ITodayRepository {
 
     @Override
     public Flowable<Today> reqListDataFormNet(String entryParameters) {

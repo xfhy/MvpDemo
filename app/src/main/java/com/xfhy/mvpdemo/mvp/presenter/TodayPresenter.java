@@ -1,12 +1,11 @@
-package com.xfhy.mvpdemo.presenter.impl;
+package com.xfhy.mvpdemo.mvp.presenter;
 
 import android.util.Log;
 
 import com.xfhy.baselibrary.BasePresenter;
-import com.xfhy.mvpdemo.data.DataManager;
-import com.xfhy.mvpdemo.data.bean.Today;
-import com.xfhy.mvpdemo.presenter.MainContract;
-
+import com.xfhy.mvpdemo.mvp.model.TodayModel;
+import com.xfhy.mvpdemo.mvp.model.bean.Today;
+import com.xfhy.mvpdemo.mvp.contract.MainContract;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,14 +20,15 @@ import io.reactivex.schedulers.Schedulers;
  * Create time : 2020/1/5 15:20
  * Description :
  */
-public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
+public class TodayPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
 
     private static final String TAG = "MainPresenter";
+    private TodayModel mDataManager = new TodayModel();
 
     @Override
     public void loadData() {
 
-        Flowable<Today> todayFlowable = DataManager.getInstance().reqListDataFormNet("");
+        Flowable<Today> todayFlowable = mDataManager.reqListDataFormNet("");
         mViewProxy.showLoading();
         Disposable subscribe =
                 todayFlowable.subscribeOn(Schedulers.io())

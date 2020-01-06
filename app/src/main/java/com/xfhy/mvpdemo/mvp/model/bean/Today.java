@@ -1,4 +1,4 @@
-package com.xfhy.mvpdemo.data.bean;
+package com.xfhy.mvpdemo.mvp.model.bean;
 
 import com.google.gson.annotations.SerializedName;
 

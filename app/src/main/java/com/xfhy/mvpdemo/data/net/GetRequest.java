@@ -1,6 +1,6 @@
 package com.xfhy.mvpdemo.data.net;
 
-import com.xfhy.mvpdemo.data.bean.Today;
+import com.xfhy.mvpdemo.mvp.model.bean.Today;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
