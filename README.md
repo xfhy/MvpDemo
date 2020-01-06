@@ -1,6 +1,6 @@
 ## 改良版的MVP架构设计
 
-> 详细内容请看demo
+> 详细内容请看源码中BaseLibrary
 
 ### 1. Presenter 自动关联Activity or Fragment的生命周期
 
