@@ -13,6 +13,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+
 /**
  * @author : xfhy
  * Create time : 2020/1/5 15:20
@@ -24,23 +25,24 @@ public class MainPresenter extends AbstractPresenter<MainContract.View> implemen
 
     @Override
     public void loadData() {
+
         Flowable<Today> todayFlowable = DataManager.getInstance().reqListDataFormNet("");
-        view.showLoading();
+        mViewProxy.showLoading();
         Disposable subscribe =
                 todayFlowable.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<Today>() {
                             @Override
                             public void accept(Today today) throws Exception {
-                                view.hideLoading();
+                                mViewProxy.hideLoading();
                                 Log.w(TAG, "accept: " + today.toString());
-                                view.showContent(today.toString());
+                                mViewProxy.showContent(today.toString());
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                view.hideLoading();
-                                view.showErrorMsg(throwable.getMessage());
+                                mViewProxy.hideLoading();
+                                mViewProxy.showErrorMsg(throwable.getMessage());
                             }
                         });
     }

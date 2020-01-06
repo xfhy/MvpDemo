@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 /**
  * @author : xfhy
  * Create time : 2020/1/5 15:05
- * Description :
+ * Description : 基类Activity
  */
-public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentActivity implements BaseView{
+public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentActivity implements BaseView {
 
     protected T mPresenter;
 
@@ -20,6 +20,21 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentA
 
         mPresenter = getPresenter();
         mPresenter.setView(this);
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+
     }
 
     /**
