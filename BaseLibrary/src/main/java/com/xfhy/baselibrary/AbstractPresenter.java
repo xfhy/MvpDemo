@@ -20,10 +20,20 @@ public abstract class AbstractPresenter<T extends BaseView> implements BasePrese
     @Override
     public void setView(T view) {
         this.mView = view;
+
+        //找到View的接口 是继承BaseView的
         Class<?>[] interfaces = view.getClass().getInterfaces();
+        boolean findIt = false;
         for (Class<?> anInterface : interfaces) {
-            if (BaseView.class == anInterface) {
-                mViewProxy = (T) Proxy.newProxyInstance(anInterface.getClassLoader(), new Class[]{anInterface}, this);
+            Class<?>[] anInterfaceInterfaces = anInterface.getInterfaces();
+            for (Class<?> anInterfaceInterface : anInterfaceInterfaces) {
+                if (BaseView.class == anInterfaceInterface) {
+                    mViewProxy = (T) Proxy.newProxyInstance(anInterface.getClassLoader(), new Class[]{anInterface}, this);
+                    findIt = true;
+                    break;
+                }
+            }
+            if (findIt) {
                 break;
             }
         }

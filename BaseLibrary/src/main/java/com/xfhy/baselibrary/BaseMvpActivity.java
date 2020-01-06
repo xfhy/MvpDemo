@@ -20,6 +20,43 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends FragmentA
 
         mPresenter = getPresenter();
         mPresenter.setView(this);
+        mPresenter.onCreate();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mPresenter.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
     }
 
     @Override
