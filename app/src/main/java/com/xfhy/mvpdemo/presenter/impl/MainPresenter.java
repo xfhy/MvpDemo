@@ -7,10 +7,10 @@ import com.xfhy.mvpdemo.data.DataManager;
 import com.xfhy.mvpdemo.data.bean.Today;
 import com.xfhy.mvpdemo.presenter.MainContract;
 
+
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -31,19 +31,14 @@ public class MainPresenter extends AbstractPresenter<MainContract.View> implemen
         Disposable subscribe =
                 todayFlowable.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Today>() {
-                            @Override
-                            public void accept(Today today) throws Exception {
-                                mViewProxy.hideLoading();
-                                Log.w(TAG, "accept: " + today.toString());
-                                mViewProxy.showContent(today.toString());
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                mViewProxy.hideLoading();
-                                mViewProxy.showErrorMsg(throwable.getMessage());
-                            }
+                        .subscribe(today -> {
+                            mViewProxy.hideLoading();
+                            Log.w(TAG, "accept: " + today.toString());
+                            mViewProxy.showContent(today.toString());
+                        }, throwable -> {
+                            mViewProxy.hideLoading();
+                            mViewProxy.showErrorMsg(throwable.getMessage());
                         });
+
     }
 }

@@ -1,7 +1,9 @@
 package com.xfhy.mvpdemo;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import com.xfhy.mvpdemo.presenter.impl.MainPresenter;
 
 public class MainActivity extends BaseMvpActivity<MainContract.Presenter> implements MainContract.View, View.OnClickListener {
 
+    private static final String TAG = "MainActivity";
     private TextView mTvLoadStatus, mTvContent;
 
     @Override
@@ -50,6 +53,7 @@ public class MainActivity extends BaseMvpActivity<MainContract.Presenter> implem
 
     @Override
     public void showContent(String content) {
+        Log.w(TAG, "showContent: view被更新了" );
         mTvContent.setText(content);
     }
 
