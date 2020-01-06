@@ -7,8 +7,16 @@ package com.xfhy.baselibrary;
  */
 public interface IPresenter<T extends IBaseView> {
 
+    /**
+     * 初始化View
+     *
+     * @param view 抽象View
+     */
     void setView(T view);
 
+    /**
+     * onCreate时会被调用
+     */
     void onCreate();
 
     /**
@@ -16,6 +24,9 @@ public interface IPresenter<T extends IBaseView> {
      */
     void onStart();
 
+    /**
+     * onDestroy时会被调用,做一些清理工作
+     */
     void onDestroy();
 
 }

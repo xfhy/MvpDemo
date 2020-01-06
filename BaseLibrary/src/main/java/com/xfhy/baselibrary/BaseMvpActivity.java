@@ -58,6 +58,8 @@ public abstract class BaseMvpActivity<T extends IPresenter> extends FragmentActi
 
     /**
      * 初始化Presenter
+     *
+     * @return 返回真实的Presenter
      */
     public abstract T getPresenter();
 }

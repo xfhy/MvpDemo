@@ -18,7 +18,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * @author : xfhy
  * Create time : 2020/1/5 15:04
- * Description :
+ * Description : 基类Presenter
  */
 public abstract class BasePresenter<T extends IBaseView> implements IPresenter<T>, InvocationHandler, LifecycleObserver {
 
